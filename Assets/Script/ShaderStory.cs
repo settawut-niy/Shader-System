@@ -7,16 +7,23 @@ public class ShaderStory : MonoBehaviour
     Renderer myRenderer;
     RaycastHit hit;
 
-    bool isShowCircle = false;
-    bool isWait = false;
+    [Header("Wait Time Before Intro State")]
     [SerializeField] float waitTime = 2f;
+    bool isWait = false;
 
+    [Header("Speed of Story")]
+    [SerializeField][Range(0, 1)] float speed = 0.5f;
+
+    [Header("About Circle Mark")]
+    [SerializeField] float circleSize = 1f;
+    [SerializeField] float circleSizeLimit = 20f;
+    bool isShowCircle = false;
+
+    // t of Lerp in story (t used in all, t2 used in Intro Stage())
     [Range(0, 1)] float t = 0;
     [Range(0, 1)] float t2 = 0;
-    [SerializeField][Range(0, 1)] float speed = 0.5f;
-    [SerializeField] float circleSize = 0.5f;
-    [SerializeField] float circleSizeLimit = 20f;
 
+    // State of Story
     enum StoryState
     {
         IntroState,
@@ -25,7 +32,7 @@ public class ShaderStory : MonoBehaviour
         WaitState
     }
 
-    StoryState currentStoryState;
+    StoryState currentStoryState = StoryState.IntroState;
 
     void Awake()
     {
@@ -34,15 +41,13 @@ public class ShaderStory : MonoBehaviour
 
     void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        DetectMouse();
 
+        StoryStep();
+    }
 
-        if (Physics.Raycast(ray, out hit))
-        {
-            Debug.DrawRay(ray.origin, ray.direction * 10, Color.red);
-            myRenderer.material.SetVector("_CirclePosition", new Vector4(hit.point.x, 0, hit.point.z, 0));
-        }
-
+    void StoryStep()
+    {
         switch (currentStoryState)
         {
             case StoryState.IntroState:
@@ -58,7 +63,18 @@ public class ShaderStory : MonoBehaviour
                 StartCoroutine(WaitTime(waitTime));
                 break;
         }
-       
+    }
+
+    void DetectMouse()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Debug.DrawRay(ray.origin, ray.direction * 10, Color.red);
+            myRenderer.material.SetVector("_CirclePosition", new Vector4(hit.point.x, 0, hit.point.z, 0));
+        }
     }
 
     void IntroStage ()
@@ -118,7 +134,7 @@ public class ShaderStory : MonoBehaviour
             myRenderer.material.SetColor("_InternalVoronoiColor", Color.Lerp(Color.black, Color.white, t*speed));
             myRenderer.material.SetFloat("_CircleSize", (Mathf.Lerp(circleSize, circleSizeLimit, t*speed)));
         }
-        else if (myRenderer.material.GetColor("_InternalVoronoiColor") == Color.white || myRenderer.material.GetFloat("_CircleSize") >= circleSizeLimit)
+        else if (myRenderer.material.GetColor("_InternalVoronoiColor") == Color.white && myRenderer.material.GetFloat("_CircleSize") >= circleSizeLimit)
         {
             currentStoryState = StoryState.WaitState;
             myRenderer.material.SetFloat("_WaveRange", -5.2f);
