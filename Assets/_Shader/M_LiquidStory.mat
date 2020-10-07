@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_LiquidStory
+  m_Shader: {fileID: -6465566751694194690, guid: 91116304dbe188e49bab832763a6fe4a, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - Boolean_E921BC94: 1
+    - Vector1_1B0AB766: -5.2
+    - _CircleSize: 10
+    - _IsShowCircle: 0
+    - _WaveRange: -5.2
+    m_Colors:
+    - Color_DD657EAF: {r: 1, g: 1, b: 1, a: 0}
+    - Color_E8179ADD: {r: 0, g: 0, b: 0, a: 0}
+    - _CirclePosition: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _ExternalVoronoiColor: {r: 1, g: 1, b: 1, a: 0}
+    - _InternalVoronoiColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
